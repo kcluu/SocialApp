@@ -2,13 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using API.Data;
 using API.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")] // GET /api/users <- how users will access this controller
-
-    public class UsersController : ControllerBase
+    [Authorize]
+    public class UsersController : BaseApiController
     {
         private readonly DataContext _context;
 
@@ -20,6 +19,7 @@ namespace API.Controllers
             
         }
 
+        [AllowAnonymous]
         [HttpGet] // this declares we're using an HTTP Get method to get the API/users
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers() // returns all of the users from the database
         {
